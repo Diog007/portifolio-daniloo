@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
+import { CyberBackgroundComponent } from "../cyber-background/cyber-background.component";
 
 @Component({
   selector: 'app-services',
-  imports: [],
+  imports: [CyberBackgroundComponent],
   templateUrl: './services.component.html',
   styleUrl: './services.component.css'
 })

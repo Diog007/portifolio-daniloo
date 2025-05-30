@@ -1,6 +1,4 @@
-.certificado {
-  background-color: #0a192f;
-}
+
 
 .network-lines {
     position: absolute;
@@ -31,7 +29,6 @@
   #certifications {
     font-family: 'Ubuntu', sans-serif;
     color: #ccd6f6;
-    background-color: #0a192f;
   }
 
   /* Ensure Font Awesome icons display properly */

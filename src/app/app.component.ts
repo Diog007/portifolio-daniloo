@@ -10,12 +10,13 @@ import { TestimonialsComponent } from './certificacoes/testimonials.component';
 import { EducationAndCertificationsComponent } from './habilidades/education-and-certifications.component';
 import { ProjectsComponent } from "./projects/projects.component";
 import { ViewportScroller } from '@angular/common';
+import { CyberBackgroundComponent } from './cyber-background/cyber-background.component';
 
 @Component({
   selector: 'app-root',
   imports: [RouterOutlet, AppComponent, HeaderComponent, HeroComponent, ServicesComponent,
     ExperienceComponent, ContactComponent, FooterComponent, TestimonialsComponent,
-    EducationAndCertificationsComponent, ProjectsComponent, ProjectsComponent],
+    EducationAndCertificationsComponent, ProjectsComponent, ProjectsComponent, CyberBackgroundComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })

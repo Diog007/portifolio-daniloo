@@ -3,12 +3,6 @@
   
 }
 
-:host {
-  display: block;
-  background-color: #0a192f;
-}
-
-
 .cyber-border::before {
   content: "";
   position: absolute;

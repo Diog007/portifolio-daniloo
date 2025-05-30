@@ -1,11 +1,10 @@
 /* Estilos específicos do componente com fundo escuro */
 .about-section {
-  padding: 6rem 1rem;
+  padding: 5rem 1rem;
   max-width: 90rem;
   margin-left: auto;
   margin-right: auto;
   position: relative;
-  background-color: #0a192f; /* Cor de fundo principal */
   color: #ccd6f6; /* Cor do texto principal */
 
   &::before {
@@ -272,10 +271,4 @@
   .skills-grid {
     grid-template-columns: 1fr 1fr;
   }
-}
-
-/* Garantir que o body tenha fundo escuro mesmo se o componente for usado isolado */
-:host {
-  display: block;
-  background-color: #0a192f;
 }
