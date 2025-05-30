@@ -20,7 +20,7 @@ import { ViewportScroller } from '@angular/common';
   styleUrl: './app.component.css'
 })
 export class AppComponent implements OnInit{
-  title = 'portifolio-sebastian';
+  title = 'Danilo Nascimento';
 
     mobileMenuOpen = false;
 
