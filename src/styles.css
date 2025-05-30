@@ -1,0 +1,28 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* A partir do seu HTML */
+:root {
+  --primary: #0a192f;
+  --secondary: #172a45;
+  --accent: #64ffda;
+  --text: #8892b0;
+  --light-text: #ccd6f6;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: var(--primary);
+  color: var(--light-text);
+  scroll-behavior: smooth;
+}
+/* Scroll suave para toda a aplicação */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Ajuste para o header fixo */
+section {
+  scroll-margin-top: 5rem;
+}

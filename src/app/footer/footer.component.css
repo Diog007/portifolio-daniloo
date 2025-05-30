@@ -1,0 +1,15 @@
+/* footer.component.scss */
+:host {
+  display: block;
+}
+
+.hexagon {
+  clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+}
+
+.font-mono {
+  font-family: 'Space Mono', monospace;
+}
+
+/* Importação de fontes (se não estiver global) */
+@import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap');

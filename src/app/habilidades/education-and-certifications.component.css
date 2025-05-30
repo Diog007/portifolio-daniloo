@@ -1,0 +1,20 @@
+/* styles.css */
+.skills {
+  background-color: #0b61e1;
+  color: white;
+}
+
+.cyber-border::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #64ffda, transparent);
+}
+
+.cyber-border {
+  position: relative;
+  
+}

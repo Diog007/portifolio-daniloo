@@ -1,0 +1,49 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Ubuntu:wght@300;400;500;700&display=swap');
+
+:host {
+  font-family: 'Ubuntu', sans-serif;
+}
+
+.gradient-text {
+  background: linear-gradient(90deg, #64ffda, #4facfe);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.hexagon {
+  clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+}
+
+.nav-link {
+  position: relative;
+  padding-bottom: 4px;
+  transition: color 0.3s;
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0%;
+  height: 2px;
+  background-color: #64ffda;
+  transition: width 0.3s ease-in-out;
+}
+
+.nav-link:hover {
+  color: #64ffda;
+}
+
+.nav-link:hover::after {
+  width: 100%;
+}
+
+.mobile-menu {
+  transform: translateX(100%);
+}
+
+.mobile-menu.open {
+  transform: translateX(0);
+}

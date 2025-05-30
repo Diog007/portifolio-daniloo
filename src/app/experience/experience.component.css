@@ -1,0 +1,32 @@
+.cyber-border {
+  position: relative;
+  
+}
+
+:host {
+  display: block;
+  background-color: #0a192f;
+}
+
+
+.cyber-border::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #64ffda, transparent);
+}
+
+.timeline-item::before {
+  content: '';
+  position: absolute;
+  left: -24px;
+  top: 0;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background-color: #64ffda;
+  border: 3px solid #172a45;
+}

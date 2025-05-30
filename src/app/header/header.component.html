@@ -1,0 +1,49 @@
+<nav class="bg-[#0a192f] border-b border-[#172a45] fixed w-full z-50 backdrop-blur-md shadow-md">
+  <div class="max-w-7xl mx-auto px-6 sm:px-8 lg:px-10 max-w-[91rem]">
+    <div class="flex justify-between items-center h-16">
+      <!-- Logo -->
+      <a href="#" class="flex items-center gap-3 hover:opacity-90 transition duration-300">
+        <div class="hexagon bg-[#64ffda] w-12 h-12 flex items-center justify-center shadow-lg hover:scale-105 transition duration-300">
+          <span class="text-[#0a192f] font-bold text-lg">DN</span>
+        </div>
+        <span class="text-2xl font-bold gradient-text">Danilo Nascimento</span>
+      </a>
+
+      <!-- Menu Desktop -->
+      <div class="hidden md:flex items-center space-x-6 text-sm font-mono text-white uppercase tracking-wide">
+        <a href="#about" class="nav-link">Sobre</a>
+        <a href="#experience" class="nav-link">Experiência</a>
+        <a href="#skills" class="nav-link">Habilidades</a>
+        <a href="#projects" class="nav-link">Projetos</a>
+        <a href="#certifications" class="nav-link">Certificações</a>
+        <a href="#contact" class="nav-link">Contato</a>
+      </div>
+
+      <!-- Botão Mobile -->
+      <div class="md:hidden">
+        <button (click)="toggleMobileMenu()" class="text-[#64ffda] focus:outline-none hover:scale-110 transition">
+          <svg class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- Menu Mobile -->
+<div
+  [class.open]="mobileMenuOpen"
+  id="mobile-menu"
+  class="mobile-menu md:hidden fixed top-0 right-0 w-64 h-full bg-[#172a45]/95 shadow-xl z-50 p-6 text-white backdrop-blur-md transition-transform duration-300"
+>
+  <nav class="flex flex-col gap-4 mt-16 text-sm uppercase font-mono tracking-wide">
+    <a href="#about" class="hover:text-[#64ffda] transition">Sobre</a>
+    <a href="#experience" class="hover:text-[#64ffda] transition">Experiência</a>
+    <a href="#skills" class="hover:text-[#64ffda] transition">Habilidades</a>
+    <a href="#projects" class="hover:text-[#64ffda] transition">Projetos</a>
+    <a href="#certifications" class="hover:text-[#64ffda] transition">Certificações</a>
+    <a href="#contact" class="hover:text-[#64ffda] transition">Contato</a>
+  </nav>
+</div>

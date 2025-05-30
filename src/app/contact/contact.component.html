@@ -1,0 +1,105 @@
+<!-- contact.component.html -->
+ <section class="contato">
+<section id="contact" class="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto cyber-border max-w-[90rem]">
+      <div class="flex items-center mb-8">
+    <h2 class="text-3xl font-bold">
+      <span class="text-[#64ffda]">06.</span> Entre em Contato
+
+    </h2>
+    <div class="ml-4 h-px bg-[#64ffda] flex-grow"></div>
+  </div>
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+        <div>
+            <h3 class="text-xl font-bold mb-6 text-[#64ffda]">Informações de Contato</h3>
+            <p class="mb-6">Estou disponível para oportunidades na área de cibersegurança, especialmente em posições de SOC, Blue Team ou Gestão de Vulnerabilidades. Sinta-se à vontade para entrar em contato!</p>
+            
+            <div class="space-y-4">
+                <div class="flex items-center">
+                    <div class="w-10 h-10 bg-[#64ffda1a] rounded-full flex items-center justify-center mr-4">
+                        <i class="fas fa-envelope text-[#64ffda]"></i>
+                    </div>
+                    <div>
+                        <p class="text-sm text-[#8892b0]">E-mail</p>
+                        <a href="mailto:danilo.cybersec@gmail.com" class="font-mono hover:text-[#64ffda]">{{email}}</a>
+                    </div>
+                </div>
+                
+                <div class="flex items-center">
+                    <div class="w-10 h-10 bg-[#64ffda1a] rounded-full flex items-center justify-center mr-4">
+                        <i class="fas fa-globe text-[#64ffda]"></i>
+                    </div>
+                    <div>
+                        <p class="text-sm text-[#8892b0]">Portfólio</p>
+                        <a href="https://danilocybersec.com.br" target="_blank" class="font-mono hover:text-[#64ffda]">https://danilocybersec.com.br</a>
+                    </div>
+                </div>
+                
+                <div class="flex items-center">
+                    <div class="w-10 h-10 bg-[#64ffda1a] rounded-full flex items-center justify-center mr-4">
+                        <i class="fab fa-linkedin-in text-[#64ffda]"></i>
+                    </div>
+                    <div>
+                        <p class="text-sm text-[#8892b0]">LinkedIn</p>
+                        <a href="https://www.linkedin.com/in/eudanilocybersec" target="_blank" class="font-mono hover:text-[#64ffda]">linkedin.com/in/eudanilocybersec</a>
+                    </div>
+                </div>
+                
+                <div class="flex items-center">
+                    <div class="w-10 h-10 bg-[#64ffda1a] rounded-full flex items-center justify-center mr-4">
+                        <i class="fab fa-github text-[#64ffda]"></i>
+                    </div>
+                    <div>
+                        <p class="text-sm text-[#8892b0]">GitHub</p>
+                        <a href="#" target="_blank" class="font-mono hover:text-[#64ffda]">github.com/danilocybersec</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-8">
+                <h4 class="text-lg font-bold mb-4">Redes Sociais</h4>
+                <div class="flex space-x-4">
+                    <a href="#" class="social-icon text-[#64ffda] hover:bg-[#64ffda] hover:text-[#0a192f]">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="#" class="social-icon text-[#64ffda] hover:bg-[#64ffda] hover:text-[#0a192f]">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="#" class="social-icon text-[#64ffda] hover:bg-[#64ffda] hover:text-[#0a192f]">
+                        <i class="fab fa-youtube"></i>
+                    </a>
+                    <a href="#" class="social-icon text-[#64ffda] hover:bg-[#64ffda] hover:text-[#0a192f]">
+                        <i class="fab fa-discord"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <div>
+            <form class="space-y-6" >
+                <div>
+                    <label for="name" class="block text-sm font-mono mb-2">Nome</label>
+                    <input type="text" id="name" class="contact-input w-full px-4 py-3 rounded focus:border-[#64ffda]">
+                </div>
+                
+                <div>
+                    <label for="email" class="block text-sm font-mono mb-2">E-mail</label>
+                    <input type="email" id="email" class="contact-input w-full px-4 py-3 rounded focus:border-[#64ffda]">
+                </div>
+                
+                <div>
+                    <label for="subject" class="block text-sm font-mono mb-2">Assunto</label>
+                    <input type="text" id="subject" class="contact-input w-full px-4 py-3 rounded focus:border-[#64ffda]">
+                </div>
+                
+                <div>
+                    <label for="message" class="block text-sm font-mono mb-2">Mensagem</label>
+                    <textarea id="message" rows="5" class="contact-input w-full px-4 py-3 rounded focus:border-[#64ffda]"></textarea>
+                </div>
+                
+                <button type="submit" class="px-6 py-3 bg-[#64ffda] text-[#0a192f] rounded font-mono font-bold hover:bg-[#4facfe] transition duration-300 w-full">Enviar Mensagem</button>
+            </form>
+        </div>
+    </div>
+</section>
+</section>
