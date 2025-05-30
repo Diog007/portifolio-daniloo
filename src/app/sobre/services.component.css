@@ -1,6 +1,6 @@
 /* Estilos específicos do componente com fundo escuro */
 .about-section {
-  padding: 5rem 1rem;
+  padding: 6rem 1rem;
   max-width: 90rem;
   margin-left: auto;
   margin-right: auto;
@@ -278,5 +278,4 @@
 :host {
   display: block;
   background-color: #0a192f;
-  min-height: 100vh;
 }
