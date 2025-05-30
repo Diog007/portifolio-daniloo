@@ -26,3 +26,8 @@ html {
 section {
   scroll-margin-top: 5rem;
 }
+
+router-outlet + * {
+  position: relative;
+  z-index: 10;
+}
