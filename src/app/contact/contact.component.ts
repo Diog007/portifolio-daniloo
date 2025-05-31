@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import emailjs from 'emailjs-com';
+import emailjs, { init } from 'emailjs-com';
 
 @Component({
   selector: 'app-contact',
@@ -17,22 +17,13 @@ export class ContactComponent {
   form = {
     name: '',
     email: '',
-    phone: '',
-    service: '',
+    subject: '',
     message: ''
   };
 
-  getServiceName(serviceKey: string): string {
-    const services: {[key: string]: string} = {
-      'project': 'Projeto Elétrico',
-      'industrial': 'Instalação Industrial',
-      'building': 'Manutenção Predial',
-      'ac': 'Ar Condicionado',
-      'solar': 'Energia Solar',
-      'network': 'Redes e Telecomunicações',
-      'other': 'Outro'
-    };
-    return services[serviceKey] || serviceKey;
+  constructor() {
+    // Inicialize o EmailJS com seu User ID
+    init('3uaFYHc6mvmgWsH7s'); // Substitua pelo seu User ID do EmailJS
   }
 
   async sendEmail() {
@@ -43,33 +34,19 @@ export class ContactComponent {
     this.sendError = false;
 
     try {
-      const currentTime = new Date().toLocaleString('pt-BR');
-      const serviceName = this.getServiceName(this.form.service);
-
       const templateParams = {
         from_name: this.form.name,
-        reply_to: this.form.email,
+        from_email: this.form.email,
         to_email: this.email,
-        phone: this.form.phone,
-        service: serviceName,
+        subject: this.form.subject,
         message: this.form.message,
-        time: currentTime,
-        
-        // Parâmetros para o template HTML
-        subject: `Nova solicitação de orçamento - ${serviceName}`,
-        client_name: this.form.name,
-        client_email: this.form.email,
-        client_phone: this.form.phone,
-        client_service: serviceName,
-        client_message: this.form.message,
-        send_time: currentTime
+        reply_to: this.form.email
       };
 
       await emailjs.send(
-        'service_0ggqnea',
-        'template_y7wwd1e',
-        templateParams,
-        '3uaFYHc6mvmgWsH7s'
+        'service_0ggqnea', // Substitua pelo seu Service ID
+        'template_y7wwd1e', // Substitua pelo seu Template ID
+        templateParams
       );
 
       this.sendSuccess = true;
@@ -86,8 +63,7 @@ export class ContactComponent {
     this.form = {
       name: '',
       email: '',
-      phone: '',
-      service: '',
+      subject: '',
       message: ''
     };
   }

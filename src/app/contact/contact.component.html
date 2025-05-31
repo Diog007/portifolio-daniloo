@@ -1,11 +1,8 @@
-<!-- contact.component.html -->
-
- <section class="contato">
+<section class="contato">
 <section id="contact" class="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto cyber-border max-w-[90rem]">
       <div class="flex items-center mb-8">
     <h2 class="text-3xl font-bold">
       <span class="text-[#64ffda]">06.</span> Entre em Contato
-
     </h2>
     <div class="ml-4 h-px bg-[#64ffda] flex-grow"></div>
   </div>
@@ -13,7 +10,7 @@
     <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
         <div>
             <h3 class="text-xl font-bold mb-6 text-[#64ffda]">Informações de Contato</h3>
-            <p class="mb-6">Estou disponível para oportunidades na área de cibersegurança, especialmente em posições de SOC, Blue Team ou Gestão de Vulnerabilidades. Sinta-se à vontade para entrar em contato!</p>
+            <p class="mb-6"></p>
             
             <div class="space-y-4">
                 <div class="flex items-center">
@@ -77,28 +74,50 @@
         </div>
         
         <div>
-            <form class="space-y-6" >
+            <form class="space-y-6" (ngSubmit)="sendEmail()" #contactForm="ngForm">
+                <!-- Mensagens de feedback -->
+                <div *ngIf="sendSuccess" class="p-4 mb-4 text-sm text-green-700 bg-green-100 rounded-lg">
+                    Mensagem enviada com sucesso! Entrarei em contato em breve.
+                </div>
+                
+                <div *ngIf="sendError" class="p-4 mb-4 text-sm text-red-700 bg-red-100 rounded-lg">
+                    Ocorreu um erro ao enviar a mensagem. Por favor, tente novamente mais tarde.
+                </div>
+                
+                <!-- Campo Nome -->
                 <div>
                     <label for="name" class="block text-sm font-mono mb-2">Nome</label>
-                    <input type="text" id="name" class="contact-input w-full px-4 py-3 rounded focus:border-[#64ffda]">
+                    <input type="text" id="name" name="name" [(ngModel)]="form.name" required
+                           class="contact-input w-full px-4 py-3 rounded focus:border-[#64ffda]">
                 </div>
                 
+                <!-- Campo E-mail -->
                 <div>
                     <label for="email" class="block text-sm font-mono mb-2">E-mail</label>
-                    <input type="email" id="email" class="contact-input w-full px-4 py-3 rounded focus:border-[#64ffda]">
+                    <input type="email" id="email" name="email" [(ngModel)]="form.email" required
+                           class="contact-input w-full px-4 py-3 rounded focus:border-[#64ffda]">
                 </div>
                 
+                <!-- Campo Assunto -->
                 <div>
                     <label for="subject" class="block text-sm font-mono mb-2">Assunto</label>
-                    <input type="text" id="subject" class="contact-input w-full px-4 py-3 rounded focus:border-[#64ffda]">
+                    <input type="text" id="subject" name="subject" [(ngModel)]="form.subject" required
+                           class="contact-input w-full px-4 py-3 rounded focus:border-[#64ffda]">
                 </div>
                 
+                <!-- Campo Mensagem -->
                 <div>
                     <label for="message" class="block text-sm font-mono mb-2">Mensagem</label>
-                    <textarea id="message" rows="5" class="contact-input w-full px-4 py-3 rounded focus:border-[#64ffda]"></textarea>
+                    <textarea id="message" name="message" rows="5" [(ngModel)]="form.message" required
+                              class="contact-input w-full px-4 py-3 rounded focus:border-[#64ffda]"></textarea>
                 </div>
                 
-                <button type="submit" class="px-6 py-3 bg-[#64ffda] text-[#0a192f] rounded font-mono font-bold hover:bg-[#4facfe] transition duration-300 w-full">Enviar Mensagem</button>
+                <!-- Botão de Envio -->
+                <button type="submit" [disabled]="isSending || !contactForm.valid"
+                        class="px-6 py-3 bg-[#64ffda] text-[#0a192f] rounded font-mono font-bold hover:bg-[#4facfe] transition duration-300 w-full disabled:opacity-50 disabled:cursor-not-allowed">
+                    <span *ngIf="!isSending">Enviar Mensagem</span>
+                    <span *ngIf="isSending">Enviando...</span>
+                </button>
             </form>
         </div>
     </div>
