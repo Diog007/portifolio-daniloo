@@ -2,7 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-/* A partir do seu HTML */
 :root {
   --primary: #0a192f;
   --secondary: #172a45;
@@ -11,23 +10,17 @@
   --light-text: #ccd6f6;
 }
 
+
+html, body {
+  background-color: transparent !important;
+  scroll-behavior: smooth;
+}
+
 body {
   font-family: 'Inter', sans-serif;
-  background-color: var(--primary);
   color: var(--light-text);
-  scroll-behavior: smooth;
-}
-/* Scroll suave para toda a aplicação */
-html {
-  scroll-behavior: smooth;
 }
 
-/* Ajuste para o header fixo */
 section {
   scroll-margin-top: 5rem;
-}
-
-router-outlet + * {
-  position: relative;
-  z-index: 10;
 }

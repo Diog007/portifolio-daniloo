@@ -14,21 +14,31 @@ import { CyberBackgroundComponent } from './cyber-background/cyber-background.co
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, AppComponent, HeaderComponent, HeroComponent, ServicesComponent,
-    ExperienceComponent, ContactComponent, FooterComponent, TestimonialsComponent,
-    EducationAndCertificationsComponent, ProjectsComponent, ProjectsComponent, CyberBackgroundComponent],
+  standalone: true, // Importante: Garanta que o componente principal seja standalone
+  imports: [
+    RouterOutlet,
+    HeaderComponent,
+    HeroComponent,
+    ServicesComponent,
+    ExperienceComponent,
+    ContactComponent,
+    FooterComponent,
+    TestimonialsComponent,
+    EducationAndCertificationsComponent,
+    ProjectsComponent,
+    CyberBackgroundComponent 
+  ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
-export class AppComponent implements OnInit{
+export class AppComponent implements OnInit {
   title = 'Danilo Nascimento';
-
-    mobileMenuOpen = false;
+  mobileMenuOpen = false;
 
   constructor(private viewportScroller: ViewportScroller) {}
 
   ngOnInit() {
-    // Configura o scroll suave para todos os links âncora
+    // Sua lógica de scroll suave pode permanecer aqui
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
       anchor.addEventListener('click', (event) => {
         event.preventDefault();
