@@ -1,28 +1,36 @@
-import { Component, ElementRef, ViewChild, HostListener } from '@angular/core';
+import { Component, ElementRef, ViewChild, AfterViewInit, HostListener, Input } from '@angular/core';
+
+// --------------------------------------------------
+// CyberBackgroundComponent (sem rastro / motion‑blur)
+// --------------------------------------------------
+
+interface Vec2 { x: number; y: number; }
 
 class Particle {
+  hue = Math.random() * 60 + 180;
   constructor(
-    public x: number,
-    public y: number,
+    public pos: Vec2,
+    public vel: Vec2,
     public size: number,
-    public color: string,
-    private canvasWidth: number,
-    private canvasHeight: number,
-    public speedX = Math.random() * 1 - 0.5,
-    public speedY = Math.random() * 1 - 0.5
+    private readonly canvasSize: Vec2
   ) {}
 
-  update() {
-    this.x += this.speedX;
-    this.y += this.speedY;
-    if (this.x < 0 || this.x > this.canvasWidth) this.speedX *= -1;
-    if (this.y < 0 || this.y > this.canvasHeight) this.speedY *= -1;
+  update(): void {
+    this.pos.x += this.vel.x;
+    this.pos.y += this.vel.y;
+
+    // Rebote nas bordas
+    if (this.pos.x < 0 || this.pos.x > this.canvasSize.x) this.vel.x *= -1;
+    if (this.pos.y < 0 || this.pos.y > this.canvasSize.y) this.vel.y *= -1;
+
+    // Sutil variação de cor (efeito neon)
+    this.hue = (this.hue + 0.1) % 360;
   }
 
-  draw(ctx: CanvasRenderingContext2D) {
+  draw(ctx: CanvasRenderingContext2D): void {
     ctx.beginPath();
-    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-    ctx.fillStyle = this.color;
+    ctx.arc(this.pos.x, this.pos.y, this.size, 0, Math.PI * 2);
+    ctx.fillStyle = `hsl(${this.hue},70%,60%)`;
     ctx.fill();
   }
 }
@@ -30,112 +38,128 @@ class Particle {
 @Component({
   selector: 'app-cyber-background',
   standalone: true,
-  template: `
-    <canvas #particleCanvas class="fixed inset-0 z-0 pointer-events-none"></canvas>
-  `,
+  template: `<canvas #canvas class="fixed inset-0 pointer-events-none select-none"></canvas>` ,
   styles: [`
     :host, canvas {
       position: fixed;
       inset: 0;
       width: 100%;
       height: 100%;
-      background: #0a192f;
+      background:#0a192f; /* fallback enquanto JS carrega */
     }
   `]
 })
-export class CyberBackgroundComponent {
-  @ViewChild('particleCanvas', { static: true })
-  canvasRef!: ElementRef<HTMLCanvasElement>;
+export class CyberBackgroundComponent implements AfterViewInit {
+  @ViewChild('canvas', { static: true }) private canvasRef!: ElementRef<HTMLCanvasElement>;
+
+  /** 0.5 = leve | 1 = normal | 2+ = denso */
+  @Input() density = 1;
 
   private ctx!: CanvasRenderingContext2D;
   private particles: Particle[] = [];
-  private mouse = { x: -1_000, y: -1_000 };
+  private mouse: Vec2 = { x: -1e3, y: -1e3 };
+  private frameId!: number;
+  private readonly ratio = window.devicePixelRatio || 1;
 
-  // número responsivo de partículas
-  private get particleCount() { return innerWidth < 768 ? 50 : 100; }
-
-  /* ----------- CICLO DE VIDA ----------- */
-  ngOnInit() {
-    const canvas = this.canvasRef.nativeElement;
-    this.ctx = canvas.getContext('2d')!;
-    this.resizeCanvas();
-    this.spawnParticles();
-    this.animate();
+  /* ---------------- Ciclo de vida ---------------- */
+  ngAfterViewInit(): void {
+    this.setupCanvas();
+    this.createParticles();
+    this.frameId = requestAnimationFrame(this.animate);
   }
 
-  /* ----------- EVENTOS DE JANELA ----------- */
+  ngOnDestroy(): void {
+    cancelAnimationFrame(this.frameId);
+  }
+
+  /* ---------------- Event listeners ---------------- */
   @HostListener('window:resize')
-  resizeCanvas() {
-    const canvas = this.canvasRef.nativeElement;
-    canvas.width  = innerWidth;
-    canvas.height = innerHeight;
-    this.spawnParticles();                 // re-espalha partículas
+  onResize(): void {
+    this.setupCanvas();
+    this.createParticles();
   }
 
   @HostListener('document:mousemove', ['$event'])
-  onMouseMove(ev: MouseEvent) {
-    this.mouse.x = ev.clientX;
-    this.mouse.y = ev.clientY;
+  onMouseMove(e: MouseEvent): void {
+    this.mouse = { x: e.clientX, y: e.clientY };
   }
 
   @HostListener('document:mouseleave')
-  onMouseLeave() {
-    this.mouse.x = this.mouse.y = -1_000;  // “desliga” o efeito
+  onMouseLeave(): void {
+    this.mouse = { x: -1e3, y: -1e3 };
   }
 
-  /* ----------- LÓGICA DE PARTÍCULAS ----------- */
-  private spawnParticles() {
-    const { width, height } = this.canvasRef.nativeElement;
-    this.particles = Array.from({ length: this.particleCount }, () => {
+  /* ---------------- Inicialização ---------------- */
+  private setupCanvas(): void {
+    const canvas = this.canvasRef.nativeElement;
+    const { innerWidth: w, innerHeight: h } = window;
+
+    // Canvas Hi‑DPI
+    canvas.width  = w * this.ratio;
+    canvas.height = h * this.ratio;
+    canvas.style.width  = `${w}px`;
+    canvas.style.height = `${h}px`;
+
+    this.ctx = canvas.getContext('2d')!;
+    this.ctx.scale(this.ratio, this.ratio);
+  }
+
+  private createParticles(): void {
+    const { innerWidth: w, innerHeight: h } = window;
+    const count = (w < 768 ? 50 : 100) * this.density;
+
+    this.particles = Array.from({ length: count }, () => {
       const size = Math.random() * 3 + 1;
       return new Particle(
-        Math.random() * width,
-        Math.random() * height,
+        { x: Math.random() * w, y: Math.random() * h },
+        { x: Math.random() - 0.5, y: Math.random() - 0.5 },
         size,
-        `hsl(${Math.random() * 60 + 180}, 70%, 60%)`,
-        width,
-        height
+        { x: w, y: h }
       );
     });
   }
 
-  private animate = () => {
-    requestAnimationFrame(this.animate);
-    const { width, height } = this.canvasRef.nativeElement;
-    this.ctx.clearRect(0, 0, width, height);
+  /* ---------------- Loop de animação ---------------- */
+  private animate = (): void => {
+    this.frameId = requestAnimationFrame(this.animate);
+    const { innerWidth: w, innerHeight: h } = window;
 
-    /* Desenha partículas e linhas com o mouse */
-    this.particles.forEach(p => {
+    // Limpamos completamente: SEM rastro/motion‑blur
+    this.ctx.clearRect(0, 0, w, h);
+
+    // Partículas e interações
+    for (const p of this.particles) {
       p.update();
       p.draw(this.ctx);
 
-      const dx = this.mouse.x - p.x;
-      const dy = this.mouse.y - p.y;
+      // Linha até o mouse
+      const dx = this.mouse.x - p.pos.x;
+      const dy = this.mouse.y - p.pos.y;
       const dist = Math.hypot(dx, dy);
-
-      if (dist < 150) {
-        this.ctx.strokeStyle = `rgba(100,255,255,${1 - dist / 150})`;
-        this.ctx.lineWidth = 0.5;
+      if (dist < 140) {
+        this.ctx.strokeStyle = `rgba(100,255,255,${1 - dist / 140})`;
+        this.ctx.lineWidth = 0.4;
         this.ctx.beginPath();
-        this.ctx.moveTo(p.x, p.y);
+        this.ctx.moveTo(p.pos.x, p.pos.y);
         this.ctx.lineTo(this.mouse.x, this.mouse.y);
         this.ctx.stroke();
       }
-    });
+    }
 
-    /* Desenha linhas entre partículas próximas */
+    // Linhas entre partículas próximas
     for (let i = 0; i < this.particles.length; i++) {
       for (let j = i + 1; j < this.particles.length; j++) {
-        const dx = this.particles[i].x - this.particles[j].x;
-        const dy = this.particles[i].y - this.particles[j].y;
+        const a = this.particles[i];
+        const b = this.particles[j];
+        const dx = a.pos.x - b.pos.x;
+        const dy = a.pos.y - b.pos.y;
         const dist = Math.hypot(dx, dy);
-
-        if (dist < 100) {
-          this.ctx.strokeStyle = `rgba(100,255,255,${1 - dist / 100})`;
-          this.ctx.lineWidth = 0.3;
+        if (dist < 90) {
+          this.ctx.strokeStyle = `rgba(100,255,255,${1 - dist / 90})`;
+          this.ctx.lineWidth = 0.25;
           this.ctx.beginPath();
-          this.ctx.moveTo(this.particles[i].x, this.particles[i].y);
-          this.ctx.lineTo(this.particles[j].x, this.particles[j].y);
+          this.ctx.moveTo(a.pos.x, a.pos.y);
+          this.ctx.lineTo(b.pos.x, b.pos.y);
           this.ctx.stroke();
         }
       }
