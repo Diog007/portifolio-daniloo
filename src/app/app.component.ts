@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { HeaderComponent } from './header/header.component';
 import { HeroComponent } from './hero/hero.component';
@@ -10,11 +10,12 @@ import { TestimonialsComponent } from './certificacoes/testimonials.component';
 import { EducationAndCertificationsComponent } from './habilidades/education-and-certifications.component';
 import { ProjectsComponent } from "./projects/projects.component";
 import { ViewportScroller } from '@angular/common';
-import { CyberBackgroundComponent } from './cyber-background/cyber-background.component';
+// CyberBackgroundComponent pode ser removido se você não o estiver usando mais no template
+import { CyberBackgroundComponent } from './cyber-background/cyber-background.component'; 
 
 @Component({
   selector: 'app-root',
-  standalone: true, // Importante: Garanta que o componente principal seja standalone
+  standalone: true,
   imports: [
     RouterOutlet,
     HeaderComponent,
@@ -26,14 +27,19 @@ import { CyberBackgroundComponent } from './cyber-background/cyber-background.co
     TestimonialsComponent,
     EducationAndCertificationsComponent,
     ProjectsComponent,
-    CyberBackgroundComponent 
+    // CyberBackgroundComponent // Remova esta linha se você o removeu do app.component.html
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
-export class AppComponent implements OnInit {
+// Implementa as interfaces OnInit e AfterViewInit
+export class AppComponent implements OnInit, AfterViewInit {
   title = 'Danilo Nascimento';
   mobileMenuOpen = false;
+
+  // --- CORREÇÃO: Adicionado '!' para resolver o erro ts(2564) ---
+  // Isso informa ao TypeScript que a propriedade será inicializada pelo Angular.
+  @ViewChild('backgroundVideo') backgroundVideo!: ElementRef<HTMLVideoElement>;
 
   constructor(private viewportScroller: ViewportScroller) {}
 
@@ -48,6 +54,24 @@ export class AppComponent implements OnInit {
         }
       });
     });
+  }
+
+  ngAfterViewInit(): void {
+    // Verifica se a referência ao vídeo foi encontrada
+    if (this.backgroundVideo) {
+      // Garante que o vídeo está sem som (essencial para autoplay)
+      this.backgroundVideo.nativeElement.muted = true;
+      
+      // Tenta iniciar a reprodução programaticamente
+      const playPromise = this.backgroundVideo.nativeElement.play();
+
+      if (playPromise !== undefined) {
+        playPromise.catch(error => {
+          // Loga um erro no console se o navegador bloquear a reprodução
+          console.error('Autoplay foi impedido pelo navegador:', error);
+        });
+      }
+    }
   }
 
   toggleMobileMenu() {
